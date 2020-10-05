@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageType>Template</PackageType>
+		<PackageVersion>1.0.0</PackageVersion>
+		<NoDefaultExcludes>true</NoDefaultExcludes>
+		<PackageId>Byndyusoft.ServiceTemplate</PackageId>
+		<Title>Byndyusoft.ServiceTemplate</Title>
+		<Authors>Byndyusoft</Authors>
+		<Description>Byndyusoft service template project</Description>
+		<PackageTags>dotnet-new;templates</PackageTags>
+		<TargetFramework>netstandard2.1</TargetFramework>
+
+		<IncludeContentInPack>true</IncludeContentInPack>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<ContentTargetFolders>content</ContentTargetFolders>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="**/*;" Exclude="**/bin/**;**/obj/**;Readme.md;sod-shared*/**;.vs/**;.git/**;.gitmodules;Byndyusoft.ServiceTemplate.csproj"/>
+		<Compile Remove ="**/*"/>
+	</ItemGroup>	
+
+</Project>
+

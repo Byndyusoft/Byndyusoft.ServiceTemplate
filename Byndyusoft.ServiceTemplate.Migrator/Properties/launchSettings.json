@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Byndyusoft.ServiceTemplate.Migrator": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
