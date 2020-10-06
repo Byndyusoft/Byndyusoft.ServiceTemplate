@@ -57,6 +57,8 @@ namespace Byndyusoft.ServiceTemplate.Api
 
             services.AddControllers()
                     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            services.AddHealthChecks();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -85,7 +87,11 @@ namespace Byndyusoft.ServiceTemplate.Api
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+                                 {
+                                     endpoints.MapControllers();
+                                     endpoints.MapHealthChecks("/api/status");
+                                 });
         }
     }
 }
