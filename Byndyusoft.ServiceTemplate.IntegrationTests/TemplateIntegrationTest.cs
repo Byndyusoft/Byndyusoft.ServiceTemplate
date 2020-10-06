@@ -1,6 +1,3 @@
-using System;
-using Xunit;
-
 namespace Byndyusoft.ServiceTemplate.IntegrationTests
 {
     using System.Net.Http;
@@ -10,6 +7,7 @@ namespace Byndyusoft.ServiceTemplate.IntegrationTests
     using FluentAssertions;
     using Microsoft.Extensions.Options;
     using OpenTracing.Mock;
+    using Xunit;
 
     public class TemplateIntegrationTest
     {
@@ -18,8 +16,8 @@ namespace Byndyusoft.ServiceTemplate.IntegrationTests
         public TemplateIntegrationTest()
         {
             _templateClient = new TemplateClient(new HttpClient(),
-                                                    Options.Create(new TemplateApiSettings {Url = "http://localhost:50001"}),
-                                                    new MockTracer());
+                                                 Options.Create(new TemplateApiSettings {Url = "http://localhost:50001"}),
+                                                 new MockTracer());
         }
 
         [Fact]
