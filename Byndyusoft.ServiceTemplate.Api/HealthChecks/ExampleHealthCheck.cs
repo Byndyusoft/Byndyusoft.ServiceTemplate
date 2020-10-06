@@ -6,6 +6,9 @@
     using Domain.Services.Interfaces;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
 
+    /// <summary>
+    ///     Пример хелсчека, работающего с БД
+    /// </summary>
     public class ExampleHealthCheck : IHealthCheck
     {
         private readonly IDatabaseService _databaseService;
