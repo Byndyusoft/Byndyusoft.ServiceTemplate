@@ -5,6 +5,7 @@ namespace Byndyusoft.ServiceTemplate.Api
     using Autofac;
     using Domain.Settings;
     using Extensions;
+    using HealthChecks;
     using HostedServices;
     using Installers;
     using Microsoft.AspNetCore.Builder;
@@ -58,7 +59,8 @@ namespace Byndyusoft.ServiceTemplate.Api
             services.AddControllers()
                     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-            services.AddHealthChecks();
+            services.AddHealthChecks()
+                    .AddCheck<ExampleHealthCheck>(nameof(ExampleHealthCheck));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

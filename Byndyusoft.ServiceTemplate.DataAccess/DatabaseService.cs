@@ -6,6 +6,7 @@
     using Domain.Services.Interfaces;
     using IConnectionFactory = ConnectionFactories.IConnectionFactory;
 
+    /// <inheritdoc />
     public class DatabaseService : IDatabaseService
     {
         private readonly IConnectionFactory _connectionFactory;
