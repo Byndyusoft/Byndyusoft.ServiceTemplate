@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master # Default release branch
+      - feature/nuget-publish # test purpose only
 jobs:
   publish:
     name: build, pack & publish
