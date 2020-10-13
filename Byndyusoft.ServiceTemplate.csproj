@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<PackageType>Template</PackageType>
-		<PackageVersion>1.0.1-prerelease</PackageVersion>
+		<PackageVersion>1.0.1-prerelease-03</PackageVersion>
 		<NoDefaultExcludes>true</NoDefaultExcludes>
 		<PackageId>Byndyusoft.ServiceTemplate</PackageId>
 		<Title>Byndyusoft.ServiceTemplate</Title>
