@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<PackageType>Template</PackageType>
-		<PackageVersion>1.0.1-prerelease</PackageVersion>
+		<PackageVersion>1.0.1-prerelease-01</PackageVersion>
 		<NoDefaultExcludes>true</NoDefaultExcludes>
 		<PackageId>Byndyusoft.ServiceTemplate</PackageId>
 		<Title>Byndyusoft.ServiceTemplate</Title>
@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="**/*;" Exclude="**/bin/**;**/obj/**;Readme.md;sod-shared*/**;.vs/**;.git/**;.gitmodules;Byndyusoft.ServiceTemplate.csproj;.github/*;.template.config/*"/>
+		<Content Include="**/*;" Exclude="**/bin/**;**/obj/**;Readme.md;sod-shared*/**;.vs/**;.git/**;.gitmodules;Byndyusoft.ServiceTemplate.csproj;.github/**;.template.config/*"/>
 		<Compile Remove ="**/*"/>
 	</ItemGroup>	
 
