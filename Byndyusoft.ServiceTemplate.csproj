@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="**/*;" Exclude="**/bin/**;**/obj/**;Readme.md;sod-shared*/**;.vs/**;.git/**;.gitmodules;Byndyusoft.ServiceTemplate.csproj"/>
+		<Content Include="**/*;" Exclude="**/bin/**;**/obj/**;Readme.md;sod-shared*/**;.vs/**;.git/**;.gitmodules;Byndyusoft.ServiceTemplate.csproj;.github/*;.template.config/*"/>
 		<Compile Remove ="**/*"/>
 	</ItemGroup>	
 
