@@ -20,6 +20,7 @@
         private static readonly string JaegerTraceUri = "/api/traces";
         private static readonly string ServiceStatusUri = "/api/status";
         private static readonly string MetricsUri = "/metrics";
+        private static readonly string SwaggerUri = "/swagger";
 
         public static IServiceCollection AddJaeger(this IServiceCollection services, IConfiguration configuration)
         {
@@ -45,6 +46,7 @@
 
                                                    var tracer = new Tracer.Builder(serviceName)
                                                                 .WithLoggerFactory(loggerFactory)
+                                                                .WithExpandExceptionLogs()
                                                                 .WithReporter(reporter)
                                                                 .WithSampler(sampler)
                                                                 .Build();
@@ -60,6 +62,7 @@
                                                                 {
                                                                     options.Hosting.IgnorePatterns.Add(context => context.Request.Path.Value.EndsWith(ServiceStatusUri, StringComparison.InvariantCultureIgnoreCase));
                                                                     options.Hosting.IgnorePatterns.Add(context => context.Request.Path.Value.EndsWith(MetricsUri, StringComparison.InvariantCultureIgnoreCase));
+                                                                    options.Hosting.IgnorePatterns.Add(context => context.Request.Path.Value.StartsWith(SwaggerUri, StringComparison.InvariantCultureIgnoreCase));
                                                                 });
 
             return services;

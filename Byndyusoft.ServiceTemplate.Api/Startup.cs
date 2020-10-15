@@ -1,5 +1,6 @@
 namespace Byndyusoft.ServiceTemplate.Api
 {
+    using System.Linq;
     using System.Reflection;
     using System.Text.Json.Serialization;
     using Autofac;
@@ -15,6 +16,7 @@ namespace Byndyusoft.ServiceTemplate.Api
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
+    using OpenTracing.Contrib.NetCore.Internal;
     using Swagger;
     using Swashbuckle.AspNetCore.SwaggerGen;
     using Swashbuckle.AspNetCore.SwaggerUI;
@@ -31,7 +33,9 @@ namespace Byndyusoft.ServiceTemplate.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddJaeger(Configuration)
-                    .AddOpenTracing();
+                    .AddOpenTracing(builder => builder.ConfigureAspNetCore(options => options.Hosting.IgnorePatterns.Add(context => context.Items.Any())));
+
+            services.Configure<GenericEventOptions>(options => options.IgnoreAll = true);
 
             services.AddApiVersioning(options =>
                                           {
