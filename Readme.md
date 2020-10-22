@@ -14,23 +14,30 @@
 
 
 
-## Как использовать шаблон?
-### установка шаблона из nuget
-dotnet new --install Byndyusoft.ServiceTemplate
+# Как использовать шаблон?
+### Установка шаблона из nuget в консоли Windows:
+`dotnet new --install Byndyusoft.ServiceTemplate`
 
-### создание нового сервиса из шаблона
-dotnet new bsservice -n {Название сервиса}
+![gif](https://i.imgur.com/yKPSngl.gif)
 
-###
-проект готов к использованию
+### Создание нового сервиса из шаблона (выполнять в пустой директории)
+`dotnet new bsservice -n {Название сервиса}`
 
+![gif](https://i.imgur.com/q0ivkq1.gif)
+
+Проект готов к использованию!
+
+![gif](https://i.imgur.com/vCcvlj1.png)
+
+# Модификация и локальное развёртывание пакета
 ## Ручная сборка и установка пакета из репозитория
 ### создание нугет пакета из шаблона 
-dotnet pack Byndyusoft.ServiceTemplate.csproj
+`dotnet pack Byndyusoft.ServiceTemplate.csproj`
 
 ### установка шаблона 
-cd bin/debug
+`cd bin/debug`
 
-dotnet new -i Byndyusoft.ServiceTemplate1.0.0.nupkg
+`dotnet new -i Byndyusoft.ServiceTemplate1.0.0.nupkg`
 
-
+# Maintainers
+github.maintain@byndyusoft.com
