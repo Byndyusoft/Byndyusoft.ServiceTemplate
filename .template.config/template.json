@@ -2,6 +2,7 @@
 "$schema": "http://json.schemastore.org/template",
   "author": "Byndyusoft",
   "classifications": ["Web"],
+  "projectUrl": "https://github.com/Byndyusoft/Byndyusoft.ServiceTemplate",
   "description": "",
   "name": "Byndyusoft serice template",
   "defaultName": "Byndyusoft.ServiceTemplate",
