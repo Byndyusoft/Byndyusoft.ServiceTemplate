@@ -4,12 +4,12 @@
 Шаблон включает 8 проектов для полноценного запуска сервиса. Подключены swagger, jaeger, nlog. Добавлены сервисы для работы с базой данных, RabbitMQ, S3-хранилищем. API поддерживает версионирование, health-check\status.
 
 - Byndyusoft.ServiceTemplate.Domain - бизнес-логика приложения
-- Byndyusoft.ServiceTemplate.Tests - юнит-тесты на бизнес логику
+- Byndyusoft.ServiceTemplate.Tests - юнит-тесты на бизнес-логику
 - Byndyusoft.ServiceTemplate.DataAccess - слой доступа к данным
 - Byndyusoft.ServiceTemplate.Migrator - мигратор базы данных на основе https://github.com/fluentmigrator/fluentmigrator
 - Byndyusoft.ServiceTemplate.Api - веб-апи приложение, с добавленной фоновой службой
 - Byndyusoft.ServiceTemplate.Api.Client - клиент для веб-апи
-- Byndyusoft.ServiceTemplate.Api.Shared - дто для веб-апи и клиента, расширение для подключения клиента в потребителе
+- Byndyusoft.ServiceTemplate.Api.Shared - DTO для веб-апи и клиента, расширение для подключения клиента в потребителе
 - Byndyusoft.ServiceTemplate.IntegrationTests - интеграционные тесты на веб-апи
 
 
