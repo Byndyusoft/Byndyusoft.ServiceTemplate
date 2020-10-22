@@ -25,11 +25,10 @@ dotnet new bsservice -n {Название сервиса}
 проект готов к использованию
 
 ## Ручная сборка и установка пакета из репозитория
-
-#### создание нугет пакета из шаблона 
+### создание нугет пакета из шаблона 
 dotnet pack Byndyusoft.ServiceTemplate.csproj
 
-#### установка шаблона 
+### установка шаблона 
 cd bin/debug
 
 dotnet new -i Byndyusoft.ServiceTemplate1.0.0.nupkg
