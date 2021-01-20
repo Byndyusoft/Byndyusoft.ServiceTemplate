@@ -9,11 +9,11 @@
     /// <summary>
     ///     Пример хелсчека, работающего с БД
     /// </summary>
-    public class ExampleHealthCheck : IHealthCheck
+    public class TemplateHealthCheck : IHealthCheck
     {
         private readonly IDatabaseService _databaseService;
 
-        public ExampleHealthCheck(IDatabaseService databaseService)
+        public TemplateHealthCheck(IDatabaseService databaseService)
         {
             _databaseService = databaseService;
         }

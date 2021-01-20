@@ -60,7 +60,9 @@ namespace Byndyusoft.ServiceTemplate.Api
                     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddHealthChecks()
-                    .AddCheck<ExampleHealthCheck>(nameof(ExampleHealthCheck));
+                    .AddCheck<CustomNpgSqlHealthCheck>(nameof(CustomNpgSqlHealthCheck));
+            //TODO: Вернуть пример с кастомной логикой
+            //.AddCheck<TemplateHealthCheck>(nameof(TemplateHealthCheck));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -92,7 +94,7 @@ namespace Byndyusoft.ServiceTemplate.Api
             app.UseEndpoints(endpoints =>
                                  {
                                      endpoints.MapControllers();
-                                     endpoints.MapHealthChecks("/api/status");
+                                     endpoints.MapHealthChecks("/healthz");
                                  });
         }
     }
