@@ -1,11 +1,12 @@
 namespace Byndyusoft.ServiceTemplate.Api
 {
+    using System;
     using System.Reflection;
     using System.Text.Json.Serialization;
+    using Amazon.S3;
     using Autofac;
     using Domain.Settings;
     using Extensions;
-    using HealthChecks;
     using HostedServices;
     using Installers;
     using Microsoft.AspNetCore.Builder;
@@ -49,20 +50,38 @@ namespace Byndyusoft.ServiceTemplate.Api
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen();
 
+            var rabbitSettingsConfigurationSection = Configuration.GetSection(nameof(RabbitSettings));
+            var s3SettingsConfigurationSection = Configuration.GetSection(nameof(S3Settings));
+            var databaseConnectionSettingsConfigurationSection = Configuration.GetSection(nameof(DatabaseConnectionSettings));
+
             services.AddOptions()
-                    .Configure<DatabaseConnectionSettings>(Configuration.GetSection(nameof(DatabaseConnectionSettings)))
-                    .Configure<S3Settings>(Configuration.GetSection(nameof(S3Settings)))
-                    .Configure<RabbitSettings>(Configuration.GetSection(nameof(RabbitSettings)));
+                    .Configure<DatabaseConnectionSettings>(databaseConnectionSettingsConfigurationSection)
+                    .Configure<S3Settings>(s3SettingsConfigurationSection)
+                    .Configure<RabbitSettings>(rabbitSettingsConfigurationSection);
 
             services.AddHostedService<TemplateHostedService>();
 
             services.AddControllers()
                     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
+            var rabbitSettings = rabbitSettingsConfigurationSection.Get<RabbitSettings>();
+            var s3Settings = s3SettingsConfigurationSection.Get<S3Settings>();
+            var databaseConnectionSettings = databaseConnectionSettingsConfigurationSection.Get<DatabaseConnectionSettings>();
+
             services.AddHealthChecks()
-                    .AddCheck<CustomNpgSqlHealthCheck>(nameof(CustomNpgSqlHealthCheck));
-            //TODO: Вернуть пример с кастомной логикой
-            //.AddCheck<TemplateHealthCheck>(nameof(TemplateHealthCheck));
+                    .AddNpgSql(databaseConnectionSettings.ConnectionString)
+                    .AddRabbitMQ(rabbitConnectionString: rabbitSettings.ConnectionString)
+                    .AddS3(options =>
+                               {
+                                   options.AccessKey = s3Settings.AccessKey;
+                                   options.BucketName = s3Settings.BucketName;
+                                   options.SecretKey = s3Settings.SecretKey;
+                                   options.S3Config = new AmazonS3Config
+                                                          {
+                                                              ServiceURL = s3Settings.ServiceUrl,
+                                                              ForcePathStyle = true
+                                                          };
+                               });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -71,7 +90,7 @@ namespace Byndyusoft.ServiceTemplate.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider apiVersionDescriptionProvider, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
