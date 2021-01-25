@@ -1,6 +1,5 @@
 namespace Byndyusoft.ServiceTemplate.Api
 {
-    using System;
     using System.Reflection;
     using System.Text.Json.Serialization;
     using Amazon.S3;
@@ -90,7 +89,7 @@ namespace Byndyusoft.ServiceTemplate.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider apiVersionDescriptionProvider, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
             if (env.IsDevelopment())
             {
