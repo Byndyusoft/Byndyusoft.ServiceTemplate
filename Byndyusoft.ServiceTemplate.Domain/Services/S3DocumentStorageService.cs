@@ -27,6 +27,7 @@
 
             var amazonS3Config = new AmazonS3Config
                                      {
+                                         //TODO: возможно, стоит вынести в конфиг?
                                          RegionEndpoint = RegionEndpoint.USEast1,
                                          ServiceURL = s3Settings.ServiceUrl,
                                          ForcePathStyle = true

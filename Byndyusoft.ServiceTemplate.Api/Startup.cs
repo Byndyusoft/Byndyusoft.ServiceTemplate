@@ -3,6 +3,7 @@ namespace Byndyusoft.ServiceTemplate.Api
     using System.Linq;
     using System.Reflection;
     using System.Text.Json.Serialization;
+    using Amazon.S3;
     using Autofac;
     using Domain.Settings;
     using Extensions;
@@ -52,15 +53,38 @@ namespace Byndyusoft.ServiceTemplate.Api
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen();
 
+            var rabbitSettingsConfigurationSection = Configuration.GetSection(nameof(RabbitSettings));
+            var s3SettingsConfigurationSection = Configuration.GetSection(nameof(S3Settings));
+            var databaseConnectionSettingsConfigurationSection = Configuration.GetSection(nameof(DatabaseConnectionSettings));
+
             services.AddOptions()
-                    .Configure<DatabaseConnectionSettings>(Configuration.GetSection(nameof(DatabaseConnectionSettings)))
-                    .Configure<S3Settings>(Configuration.GetSection(nameof(S3Settings)))
-                    .Configure<RabbitSettings>(Configuration.GetSection(nameof(RabbitSettings)));
+                    .Configure<DatabaseConnectionSettings>(databaseConnectionSettingsConfigurationSection)
+                    .Configure<S3Settings>(s3SettingsConfigurationSection)
+                    .Configure<RabbitSettings>(rabbitSettingsConfigurationSection);
 
             services.AddHostedService<TemplateHostedService>();
 
             services.AddControllers()
                     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            var rabbitSettings = rabbitSettingsConfigurationSection.Get<RabbitSettings>();
+            var s3Settings = s3SettingsConfigurationSection.Get<S3Settings>();
+            var databaseConnectionSettings = databaseConnectionSettingsConfigurationSection.Get<DatabaseConnectionSettings>();
+
+            services.AddHealthChecks()
+                    .AddNpgSql(databaseConnectionSettings.ConnectionString)
+                    .AddRabbitMQ(rabbitConnectionString: rabbitSettings.ConnectionString)
+                    .AddS3(options =>
+                               {
+                                   options.AccessKey = s3Settings.AccessKey;
+                                   options.BucketName = s3Settings.BucketName;
+                                   options.SecretKey = s3Settings.SecretKey;
+                                   options.S3Config = new AmazonS3Config
+                                                          {
+                                                              ServiceURL = s3Settings.ServiceUrl,
+                                                              ForcePathStyle = true
+                                                          };
+                               });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -89,7 +113,11 @@ namespace Byndyusoft.ServiceTemplate.Api
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+                                 {
+                                     endpoints.MapControllers();
+                                     endpoints.MapHealthChecks("/healthz");
+                                 });
         }
     }
 }
